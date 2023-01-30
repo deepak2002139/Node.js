@@ -1,25 +1,27 @@
-const express = require('express');
-require("./config");
-const Product = require('./product');
-const app = express();
+const mysql= require("mysql");
 
-app.use(express.json());
+const con= mysql.createConnection({
+  host:"localhost",
+  user:"root",
+  password:"",
+  database:"test"
+});
 
-app.get("/search/:key",async (req,resp)=>{
-    let data = await Product.find(
-        {
-            "$or":[
-                {name:{$regex:req.params.key}},
-                {brand:{$regex:req.params.key}}
-            ]
-        }
-    )
-    resp.send(data);
+// con.connect((err)=>{
+//   if(err)
+//   {
+//     console.warn("not connect")
+//   }else{
+//     console.warn("connected!!!")
+//   }
+// })
 
+con.query("select * from users",(err,result)=>{
+  if(err)
+  {
+    console.warn("some error")
+  }
+  else{
+    console.warn(result)
+  }
 })
-
-
-
-
-
-app.listen(5000)
