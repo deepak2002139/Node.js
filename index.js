@@ -1,7 +1,15 @@
-const app=require('./app')
-let arr=[4,1,6,3,4,89,0];
-console.log(app.xyz())
-const result =arr.filter((item)=>{
-    return item>=4
-});
-console.warn(result);
+const dbConnect= require('./mongodb');
+
+dbConnect().then((resp)=>{
+resp.find({name:'nord'}).toArray().then((data)=>{
+console.log(data)
+})
+})
+
+const main=async ()=>{
+   let data = await dbConnect();
+   data = await data.find({name:'nord'}).toArray();
+   console.log(data)
+}
+
+main()
